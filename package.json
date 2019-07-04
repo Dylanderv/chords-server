@@ -1,0 +1,19 @@
+{
+  "name": "chords-server",
+  "version": "1.0.0",
+  "description": "Serveur pour Chords-Vanilla permettant de lier des suites d'accords à un utilisateur.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dylanderv/chords-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dylanderv/chords-server/issues"
+  },
+  "homepage": "https://github.com/Dylanderv/chords-server#readme"
+}
