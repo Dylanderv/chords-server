@@ -17,7 +17,7 @@ passport.deserializeUser((id, done) => {
   const userRepository: Repository<User> = getManager().getRepository(User);
   return userRepository.findOneOrFail(id)
     .then((user) => { done(null, user); })
-    .catch((err) => {done(err, null); });
+    .catch((err) => { done(err, null, { message: 'User does not exist'});  });
 })
 
 passport.use(new LocalStrategy(options, async (username, password, done) => {

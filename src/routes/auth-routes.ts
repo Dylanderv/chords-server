@@ -29,7 +29,7 @@ authRouter.get('/auth/register', async (ctx) => {
 });
 
 authRouter.post('/auth/register', async (ctx) => {
-  let userInput: UserInput = { username: ctx.request.body.username, hashedPassword: ctx.request.body.password, email: null } // TODO: LE HASH
+  let userInput: UserInput = { username: ctx.request.body.username, password: ctx.request.body.password, email: null }
   let user: User;
   try {
     user = await UserController.createUser( userInput );
@@ -74,10 +74,12 @@ authRouter.post('/auth/login', async (ctx) => {
 });
 
 authRouter.get('/auth/logout', async (ctx) => {
+  console.log('test');
   if (ctx.isAuthenticated()) {
     ctx.logout();
     ctx.redirect('/auth/login');
   } else {
+    console.log('bfdbfd');
     ctx.body = { success: false };
     ctx.throw(401);
   }
