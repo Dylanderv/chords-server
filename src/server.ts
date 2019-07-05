@@ -6,6 +6,7 @@ import { ApolloServer } from 'apollo-server-koa';
 import { typeDefs, resolvers } from 'graphQL/index';
 import * as passport from 'koa-passport';
 import * as session from 'koa-session'
+import { graphQlRouter } from 'routes/graphql-routes';
 
 const app = require('./app');
 
@@ -48,8 +49,9 @@ async function bootstrap() {
 
   app.use(authRouter.routes(), authRouter.allowedMethods());
   app.use(qaRouter.routes(), qaRouter.allowedMethods());
+  app.use(graphQlRouter.routes(), graphQlRouter.allowedMethods());
 
-  const server = new ApolloServer({ typeDefs, resolvers})
+  const server = new ApolloServer({ typeDefs, resolvers, context: ({ctx}) => ctx })
   server.applyMiddleware({ app })
 
   app.listen({ port: 3000 }, () =>

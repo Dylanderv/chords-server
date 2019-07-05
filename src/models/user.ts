@@ -23,4 +23,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @Column('text')
+  role: string;
 }

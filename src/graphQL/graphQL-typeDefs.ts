@@ -11,6 +11,7 @@ export const typeDefs = gql`
     hashedPassword: String!
     createdAt: String
     updatedAt: String
+    role: String
   }
 
   input UserInput {

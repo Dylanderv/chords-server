@@ -1,13 +1,22 @@
 import UserController from "controllers/userController";
 import { UserInput } from "models/userInput";
 import { user } from "controllers";
+import { ApolloError } from "apollo-server-koa";
 
 export const userQuery = {
-  async users() {
-    return await UserController.getUsers();
+  async users(_, args, ctx) {
+    if (ctx.isAuthenticated() && ctx.state.user && ctx.state.user.role === 'ADMIN') {
+      return await UserController.getUsers();
+    } else {
+      throw new ApolloError('Unauthorized', "403");
+    }
   },
-  async user(_, id: string) {
-    return await UserController.getUser(id);
+  async user(_, id: string, ctx) {
+    if (ctx.isAuthenticated() && ctx.state.user && (ctx.state.user.role === 'ADMIN' || ctx.state.user.id === id)) {
+      return await UserController.getUser(id);
+    } else {
+      throw new ApolloError('Unauthorized', "403");
+    }
   }
 }
 

@@ -57,7 +57,8 @@ export default class UserController {
       return await userRepository.save({
         username: userInput.username,
         email: userInput.email,
-        hashedPassword: hash
+        hashedPassword: hash,
+        role: 'USER'
       });
     } catch (err) {
       console.log("Create User Error")

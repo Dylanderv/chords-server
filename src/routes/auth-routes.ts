@@ -42,8 +42,7 @@ authRouter.post('/auth/register', async (ctx) => {
 
 authRouter.get('/auth/status', async (ctx) => {
   if (ctx.isAuthenticated()) {
-    ctx.type = 'html';
-    ctx.body = ctx;
+    ctx.body = ctx.state.user;
   } else {
     ctx.redirect('/auth/login');
   }
