@@ -7,7 +7,7 @@ export const typeDefs = gql`
   type User {
     id: ID!
     username: String!
-    email: String!
+    email: String
     hashedPassword: String!
     createdAt: String
     updatedAt: String
@@ -15,8 +15,8 @@ export const typeDefs = gql`
 
   input UserInput {
     username: String!
-    email: String!
-    hashedPassword: String!
+    email: String
+    password: String!
   }
 
   # Query
