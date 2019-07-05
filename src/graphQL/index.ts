@@ -1,4 +1,4 @@
-import { resolvers } from 'graphQL/graphQL-resolvers'
-import { typeDefs } from 'graphQL/graphQL-typeDefs'
+import { resolvers } from './graphQL-resolvers'
+import { typeDefs } from './graphQL-typeDefs'
 
 export { typeDefs, resolvers }

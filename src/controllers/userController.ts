@@ -1,6 +1,6 @@
 import { Repository, getManager } from "typeorm";
-import { User } from "models/user";
-import { UserInput } from "models/userInput";
+import { User } from "../models/user";
+import { UserInput } from "../models/userInput";
 import { UserInputError, ApolloError } from "apollo-server-koa";
 import * as bcrypt from 'bcrypt';
 

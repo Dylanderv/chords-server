@@ -1,5 +1,6 @@
 import { gql } from "apollo-server-koa";
 // Construct a schema, using GraphQL schema language
+
 export const typeDefs = gql`
 
   # Types

@@ -1,6 +1,6 @@
-import UserController from "controllers/userController";
-import { UserInput } from "models/userInput";
-import { user } from "controllers";
+import UserController from "../controllers/userController";
+import { UserInput } from "../models/userInput";
+import { user } from "../controllers";
 import { ApolloError } from "apollo-server-koa";
 
 export const userQuery = {

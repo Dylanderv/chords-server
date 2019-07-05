@@ -2,9 +2,9 @@ import * as Router from 'koa-router';
 import * as passport from 'koa-passport';
 import { createReadStream } from 'fs'
 import { buildQueryFromSelectionSet } from 'apollo-utilities';
-import UserController from 'controllers/userController';
-import { User } from 'models/user';
-import { UserInput } from 'models/userInput';
+import UserController from '../controllers/userController';
+import { User } from '../models/user';
+import { UserInput } from '../models/userInput';
 
 export const authRouter = new Router();
 

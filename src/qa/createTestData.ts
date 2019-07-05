@@ -1,6 +1,6 @@
 import { BaseContext } from 'koa';
 import { getConnection } from 'typeorm';
-import { User } from 'models/user';
+import { User } from '../models/user';
 
 export class testData {
   public static async createTestUsers(ctx: BaseContext) {
