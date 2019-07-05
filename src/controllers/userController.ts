@@ -2,6 +2,7 @@ import { Repository, getManager } from "typeorm";
 import { User } from "models/user";
 import { UserInput } from "models/userInput";
 import { UserInputError, ApolloError } from "apollo-server-koa";
+import * as bcrypt from 'bcrypt';
 
 export default class UserController {
   public static async getUsers(): Promise<User[]> {
@@ -48,10 +49,16 @@ export default class UserController {
 
   public static async createUser(userInput: UserInput) {
     const userRepository: Repository<User> = getManager().getRepository(User);
+    const salt = bcrypt.genSaltSync();
+    const hash = bcrypt.hashSync(userInput.password, salt);
     let user: User;
     try {
       console.log(userInput);
-      return await userRepository.save(userInput);
+      return await userRepository.save({
+        username: userInput.username,
+        email: userInput.email,
+        hashedPassword: hash
+      });
     } catch (err) {
       console.log("Create User Error")
       console.log(err);
