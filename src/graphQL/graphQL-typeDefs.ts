@@ -8,6 +8,7 @@ export const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
+    hashedPassword: String!
     createdAt: String
     updatedAt: String
   }
@@ -15,18 +16,22 @@ export const typeDefs = gql`
   input UserInput {
     username: String!
     email: String!
+    hashedPassword: String!
   }
 
   # Query
 
   type Query {
     users: [User]
+    user(id: ID!): User
   }
 
   # Mutation
 
   type Mutation {
     modifyUser(id: ID!, userInput: UserInput): User
+    deleteUser(id: ID!): ID
+    createUser(userInput: UserInput): User
   }
 
   
