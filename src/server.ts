@@ -7,6 +7,7 @@ import { typeDefs, resolvers } from './graphql/index';
 import * as passport from 'koa-passport';
 import * as session from 'koa-session'
 import { graphQlRouter } from './routes/graphql-routes';
+import * as cors from "@koa/cors";
 
 const app = require('./app');
 
@@ -41,6 +42,9 @@ async function bootstrap() {
 
   // Body Parser
   app.use(bodyParser());
+  app.use(cors({
+    credentials: true
+  }));
 
   //Authentification
   require('./auth/auth');

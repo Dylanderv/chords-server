@@ -5,15 +5,19 @@ import { ApolloError } from "apollo-server-koa";
 
 export const userQuery = {
   async users(_, args, ctx) {
-    if (ctx.isAuthenticated() && ctx.state.user && ctx.state.user.role === 'ADMIN') {
+    console.log(ctx.isAuthenticated());
+    console.log(ctx.state.user);
+    if (ctx.isAuthenticated() && ctx.state.user && ctx.state.user.role === 'USER') {
       return await UserController.getUsers();
     } else {
       throw new ApolloError('Unauthorized', "403");
     }
   },
-  async user(_, id: string, ctx) {
-    if (ctx.isAuthenticated() && ctx.state.user && (ctx.state.user.role === 'ADMIN' || ctx.state.user.id === id)) {
-      return await UserController.getUser(id);
+  async user(_, id: {id: string}, ctx) {
+    console.log(ctx.state.user);
+    console.log(id);
+    if ((ctx.isAuthenticated() && ctx.state.user && (ctx.state.user.role === 'ADMIN' || ctx.state.user.id === id.id))) {
+      return await UserController.getUser(id.id);
     } else {
       throw new ApolloError('Unauthorized', "403");
     }

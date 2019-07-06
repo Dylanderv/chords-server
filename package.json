@@ -24,6 +24,7 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
+    "@koa/cors": "^3.0.0",
     "apollo-server-koa": "^2.6.7",
     "bcrypt": "^3.0.6",
     "class-validator": "^0.9.1",
