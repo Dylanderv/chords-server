@@ -21,6 +21,13 @@ export const userQuery = {
     } else {
       throw new ApolloError('Unauthorized', "403");
     }
+  },
+  async me(_, none, ctx) {
+    if ((ctx.isAuthenticated() && ctx.state.user)) {
+      return await UserController.getUser(ctx.state.user.id);
+    } else {
+      throw new ApolloError('Unauthorized', "403");
+    }
   }
 }
 

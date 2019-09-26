@@ -3,7 +3,7 @@ import { qaRouter } from './routes/qa-routes';
 import { authRouter } from './routes/auth-routes';
 import * as bodyParser from 'koa-bodyparser'
 import { ApolloServer } from 'apollo-server-koa';
-import { typeDefs, resolvers } from './graphql/index';
+import { typeDefs, resolvers } from './graphQL/index';
 import * as passport from 'koa-passport';
 import * as session from 'koa-session'
 import { graphQlRouter } from './routes/graphql-routes';
