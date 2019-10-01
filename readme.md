@@ -33,3 +33,7 @@ Serveur développé avec Koa, api exposée en GraphQL, base de données Postgres
 
 - instrument : `ukulele` | `guitar` | `piano`
 - accords : nom d'accords séparé par des virgules
+
+
+docker run -p 5432:5432 -e POSTGRES_USER=user -e POSTGRES_PASSWO
+RD=password postgres

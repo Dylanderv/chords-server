@@ -43,7 +43,7 @@ export default class UserController {
       let res = await userRepository.delete(id);
     } catch (err) {
       console.log("Delete User Error")
-      console.log(err);
+      throw err;
     }
   }
 
@@ -52,17 +52,11 @@ export default class UserController {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(userInput.password, salt);
     let user: User;
-    try {
-      console.log(userInput);
-      return await userRepository.save({
-        username: userInput.username,
-        email: userInput.email,
-        hashedPassword: hash,
-        role: 'USER'
-      });
-    } catch (err) {
-      console.log("Create User Error")
-      console.log(err);
-    }
+    return await userRepository.save({
+      username: userInput.username,
+      email: userInput.email,
+      hashedPassword: hash,
+      role: 'USER'
+    });
   }
 }
