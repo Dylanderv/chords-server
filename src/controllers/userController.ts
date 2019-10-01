@@ -3,6 +3,8 @@ import { User } from "../models/user";
 import { UserInput } from "../models/userInput";
 import { UserInputError, ApolloError } from "apollo-server-koa";
 import * as bcrypt from 'bcrypt';
+import { userInfo } from "os";
+import { validate } from "class-validator";
 
 export default class UserController {
   public static async getUsers(): Promise<User[]> {
@@ -51,12 +53,18 @@ export default class UserController {
     const userRepository: Repository<User> = getManager().getRepository(User);
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(userInput.password, salt);
-    let user: User;
-    return await userRepository.save({
-      username: userInput.username,
-      email: userInput.email,
-      hashedPassword: hash,
-      role: 'USER'
-    });
+    let user: User = new User();
+    user.username = userInput.username;
+    user.email = userInput.email;
+    user.hashedPassword = hash;
+    user.role = 'USER';
+    const error = await validate(user);
+    if (error.length > 0) {
+      throw new UserInputError('Validation failed', error);
+    } else if (userInput.password.length === 0) {
+      throw new UserInputError('Password cannot be empty');
+    } else {
+      return await userRepository.save(user);  
+    }
   }
 }

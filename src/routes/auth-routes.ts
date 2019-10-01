@@ -10,11 +10,18 @@ authRouter.post('/auth/register', async (ctx) => {
   let userInput: UserInput = { username: ctx.request.body.username, password: ctx.request.body.password, email: null }
   let user: User;
   try {
+    if (ctx.isAuthenticated()) throw new Error('403');
     user = await UserController.createUser( userInput );
     await passport.authenticate('local', { successRedirect: '/auth/status', failuseFlash: true })(ctx)
   } catch (err) {
-    console.log(err)
-    ctx.throw(401)
+    if (err.message && err.message === 'Validation failed' || err.message === 'Password cannot be empty') {
+      ctx.throw(400);
+      // Add list error
+    } else if (err.message === '403') {
+      ctx.throw(403)
+    } else {
+      ctx.throw(401);
+    }
   }
 });
 
@@ -30,7 +37,11 @@ authRouter.get('/auth/status', async (ctx) => {
 });
 
 authRouter.post('/auth/login', async (ctx) => {
-  await passport.authenticate('local', { successRedirect: '/auth/status', failuseFlash: true })(ctx)
+  if (ctx.isAuthenticated()) {
+    ctx.throw(403)
+  } else {
+    await passport.authenticate('local', { successRedirect: '/auth/status', failuseFlash: true })(ctx)
+  }
 });
 
 authRouter.get('/auth/logout', async (ctx) => {

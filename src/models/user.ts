@@ -7,15 +7,17 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type: 'text', unique: true})
+  @Column({type: 'text', unique: true, nullable: false, })
+  @Length(2, 100)
   username: string;
 
   @Column({type: 'text', nullable: true})
-  @Length(5, 100)
-  @IsEmail()
+  // @Length(5, 100)
+  // @IsEmail()
   email: string;
 
   @Column('text')
+  @Length(2)
   hashedPassword: string;
 
   @CreateDateColumn()
