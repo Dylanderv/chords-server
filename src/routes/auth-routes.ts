@@ -3,6 +3,8 @@ import * as passport from 'koa-passport';
 import UserController from '../controllers/userController';
 import { User } from '../models/user';
 import { UserInput } from '../models/userInput';
+import { importChord } from '../chordImporter';
+
 
 export const authRouter = new Router();
 
@@ -27,16 +29,14 @@ authRouter.post('/auth/register', async (ctx) => {
 
 authRouter.get('/auth/status', async (ctx) => {
   if (ctx.isAuthenticated()) {
-    ctx.body = {
-      ok: true,
-      user: ctx.state.user
-    }
+    ctx.body = ctx.state.user
   } else {
     ctx.throw(403)
   }
 });
 
 authRouter.post('/auth/login', async (ctx) => {
+  importChord();
   if (ctx.isAuthenticated()) {
     ctx.throw(403)
   } else {

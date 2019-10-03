@@ -21,12 +21,34 @@ export const typeDefs = gql`
     password: String!
   }
 
+  type Instrument {
+    id: ID!
+    name: String!
+    infos: String
+    keys: [String]!
+    suffixes: [String]!
+    chords: [Chord]!
+  }
+
+  type Chord {
+    id: ID!
+    key: String!
+    suffix: String!
+    position: String!
+    info: String
+    instrument: Instrument!
+  }
+
   # Query
 
   type Query {
     users: [User]
     user(id: ID!): User
     me: User
+    instruments: [Instrument]
+    instrument(id: ID!): Instrument
+    chords(instrumentId: ID!): [Chord]
+    chord(id: ID!): Chord
   }
 
   # Mutation

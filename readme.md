@@ -37,3 +37,20 @@ Serveur développé avec Koa, api exposée en GraphQL, base de données Postgres
 
 docker run -p 5432:5432 -e POSTGRES_USER=user -e POSTGRES_PASSWO
 RD=password postgres
+
+
+docker network create --driver bridge pgnetwork
+
+docker run -p 5432:5432 -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password --name="postgres" --hostname="postgres"  --network="pgnetwork" postgres
+
+
+docker run -p 5050:80 \
+    -e "PGADMIN_DEFAULT_EMAIL=user" \
+    -e "PGADMIN_DEFAULT_PASSWORD=password" \
+    --name="pgadmin4" \
+    --hostname="pgadmin4" \
+    --network="pgnetwork" \
+    -d dpage/pgadmin4
+
+
+Connect with hostname postgres on pgadmin4
