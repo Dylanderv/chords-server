@@ -37,4 +37,18 @@ export class ChordController {
       throw new ApolloError("Chord ID not found", "404");
     }
   }
+
+  public static async getChordFromInstrumentIdAndName(instrumentId: string, key: string, suffix: string): Promise<Chord> {
+    const chordRepository: Repository<Chord> = getManager().getRepository(Chord);
+    try {
+      return await chordRepository
+        .createQueryBuilder('chord')
+        .where('chord.instrument = :instrumentId', { instrumentId })
+        .andWhere('chord.key = :key', { key })
+        .andWhere('chord.suffix = :suffix', { suffix })
+        .getOne();
+    } catch (err) {
+      throw new ApolloError("Not found", "404");
+    }
+  }
 }

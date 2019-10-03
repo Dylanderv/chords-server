@@ -18,5 +18,9 @@ export const chordQuery = {
 
   async chord(_, args: {id: string}, ctx) {
     return await ChordController.getChordForInstrument(args.id);
+  },
+
+  async chordFromName(_, args: {instrumentId: string, key: string, suffix: string}, ctx) {
+    return await ChordController.getChordFromInstrumentIdAndName(args.instrumentId, args.key, args.suffix);
   }
 }

@@ -49,6 +49,7 @@ export const typeDefs = gql`
     instrument(id: ID!): Instrument
     chords(instrumentId: ID!): [Chord]
     chord(id: ID!): Chord
+    chordFromName(instrumentId: ID!, key: String!, suffix: String!): Chord
   }
 
   # Mutation
