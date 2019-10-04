@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 
 import {Length, IsEmail} from 'class-validator'
+import { Partition } from "./Partition";
 
 @Entity('user')
 export class User {
@@ -28,4 +29,7 @@ export class User {
 
   @Column('text')
   role: string;
+
+  @OneToMany(type => Partition, partition => partition.owner)
+  partitions: Partition[];
 }

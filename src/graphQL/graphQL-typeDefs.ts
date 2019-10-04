@@ -39,6 +39,27 @@ export const typeDefs = gql`
     instrument: Instrument!
   }
 
+  type Partition {
+    id: ID!
+    name: String!
+    creationDate: String
+    updatedAt: String
+    owner: User!
+    visibility: Visibility!
+    chords: [Chord]!
+  }
+
+  input PartitionInput {
+    name: String!
+    chords: [String]!
+    ownerId: String!
+  }
+
+  enum Visibility {
+    PUBLIC
+    PRIVATE
+  }
+
   # Query
 
   type Query {
@@ -50,6 +71,8 @@ export const typeDefs = gql`
     chords(instrumentId: ID!): [Chord]
     chord(id: ID!): Chord
     chordFromName(instrumentId: ID!, key: String!, suffix: String!): Chord
+    partitions: [Partition]!
+    partition(id: ID!): Partition
   }
 
   # Mutation
@@ -58,6 +81,8 @@ export const typeDefs = gql`
     modifyUser(id: ID!, userInput: UserInput): User
     deleteUser(id: ID!): ID
     createUser(userInput: UserInput): User
+    createPartition(partitionInput: PartitionInput): Partition
+    modifyPartition(id: ID!, partitionInput: PartitionInput): Partition
   }
 
   
