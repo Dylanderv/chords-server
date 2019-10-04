@@ -24,7 +24,7 @@ export default class PartitionController {
 
   public static async createPartition(partitionInput: PartitionInput) {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
-    const partition = await getPartitionFromPartitionInput(partitionRepository, partitionInput);
+    const partition = await getPartitionFromPartitionInput(partitionInput);
     const error = await validate(partition);
     if (error.length > 0) {
       throw new UserInputError('Validation failed', error);
@@ -39,7 +39,7 @@ export default class PartitionController {
     let newPartition: Partition;
     try {
       partition = await PartitionController.getPartition(id);
-      newPartition = await getPartitionFromPartitionInput(partitionRepository, partitionInput);
+      newPartition = await getPartitionFromPartitionInput(partitionInput);
     } catch (err) {
       throw err;
     }
@@ -55,7 +55,7 @@ export default class PartitionController {
   }
 }
 
-async function getPartitionFromPartitionInput(partitionRepository: Repository<Partition>, partitionInput: PartitionInput): Promise<Partition> {
+async function getPartitionFromPartitionInput(partitionInput: PartitionInput): Promise<Partition> {
   let partition = new Partition();
   let user = await UserController.getUser(partitionInput.ownerId);
   let listChord: Chord[] = [];

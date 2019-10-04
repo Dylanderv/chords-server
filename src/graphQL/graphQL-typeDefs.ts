@@ -71,7 +71,7 @@ export const typeDefs = gql`
     chords(instrumentId: ID!): [Chord]
     chord(id: ID!): Chord
     chordFromName(instrumentId: ID!, key: String!, suffix: String!): Chord
-    partitions: [Partition]!
+    partitions: [Partition]
     partition(id: ID!): Partition
   }
 
