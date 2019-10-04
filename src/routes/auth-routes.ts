@@ -14,7 +14,8 @@ authRouter.post('/auth/register', async (ctx) => {
   try {
     if (ctx.isAuthenticated()) throw new Error('403');
     user = await UserController.createUser( userInput );
-    await passport.authenticate('local', { successRedirect: '/auth/status', failuseFlash: true })(ctx)
+    ctx.body = user
+    // await passport.authenticate('local', { successRedirect: '/auth/status', failuseFlash: true })(ctx)
   } catch (err) {
     if (err.message && err.message === 'Validation failed' || err.message === 'Password cannot be empty') {
       ctx.throw(400);
