@@ -1,6 +1,9 @@
 import { getManager } from "typeorm";
 import { Instrument } from "../models/Instrument";
 import { Chord } from "../models/Chord";
+import PartitionController from "../controllers/partitionController";
+import UserController from "../controllers/userController";
+import { ChordController, InstrumentController } from "../controllers/instrumentChordController";
 
 const PianoChord = require('../json/pianoChords.json');
 const GuitarChord = require('../json/guitarChords.json');
@@ -11,6 +14,23 @@ export function importChord() {
   importPianoChord();
   importGuitarChord();
   importUkuleleChord();
+}
+
+export async function importPartition() {
+  let user = await UserController.createUser({
+    email: 'test',
+    password: 'test',
+    username: 'test'
+  });
+  let chords = await ChordController.getChordForInstrument(((await InstrumentController.getInstruments())[0] as Instrument).id);
+  // console.log(chords);
+  let chordsToSelect = [chords[0].id, chords[1].id];
+  let res = await PartitionController.createPartition({
+    chords: chordsToSelect,
+    name: 'test Partition',
+    ownerId: user.id
+  })
+  console.log(res);
 }
 
 async function importPianoChord() {

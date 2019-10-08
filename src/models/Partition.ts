@@ -3,8 +3,8 @@ import { Chord } from "./Chord";
 import { User } from "./user";
 
 export enum Visibility {
-  'PUBLIC',
-  'PRIVATE'
+  PUBLIC = 'PUBLIC',
+  PRIVATE = 'PRIVATE'
 }
 
 @Entity('partition')
