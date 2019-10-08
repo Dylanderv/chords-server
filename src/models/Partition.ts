@@ -4,8 +4,8 @@ import { User } from "./user";
 import { Instrument } from "./Instrument";
 
 export enum Visibility {
-  'PUBLIC',
-  'PRIVATE'
+  PUBLIC = 'PUBLIC',
+  PRIVATE = 'PRIVATE'
 }
 
 @Entity('partition')

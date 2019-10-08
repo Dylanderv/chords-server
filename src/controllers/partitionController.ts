@@ -1,24 +1,24 @@
-import { Partition, Visibility } from "models/Partition";
+import { Partition, Visibility } from "../models/Partition";
 import { Repository, getManager } from "typeorm";
 import { ApolloError, UserInputError } from "apollo-server-koa";
-import { PartitionInput } from "models/partitionInput";
+import { PartitionInput } from "../models/partitionInput";
 import UserController from "./userController";
-import { Chord } from "models/Chord";
+import { Chord } from "../models/Chord";
 import { ChordController, InstrumentController } from "./instrumentChordController";
 import { validate } from "class-validator";
 
 export default class PartitionController {
   public static async getPartitions(): Promise<Partition[]> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
-    return await partitionRepository.find();
+    return await partitionRepository.find({ relations: ["owner", "chords", "chords.instrument", "chords.instrument.chords"] });
   }
 
   public static async getPartition(id: string): Promise<Partition> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
     try {
-      return await partitionRepository.findOneOrFail(id);
+      return await partitionRepository.findOneOrFail(id, { relations: ["owner", "chords", "chords.instrument", "chords.instrument.chords"] });
     } catch (err) {
-      throw new ApolloError("Parition ID not found")
+      throw new ApolloError("Partition ID not found")
     }
   }
 
@@ -59,8 +59,12 @@ async function getPartitionFromPartitionInput(partitionInput: PartitionInput, is
   let partition = new Partition();
   let user = await UserController.getUser(partitionInput.ownerId);
   let listChord: Chord[] = [];
-  partitionInput.chords.forEach(async (chordId) => listChord.push(await ChordController.getChord(chordId)));
+  for (let i = 0; i < partitionInput.chords.length; i++) {
+    let chordId = partitionInput.chords[i];
+    listChord.push(await ChordController.getChord(chordId));
+  }
   partition.chords = listChord;
+  console.log(listChord)
   partition.owner = user;
   partition.name = partitionInput.name;
   partition.visibility = Visibility.PUBLIC;

@@ -3,7 +3,7 @@ import * as passport from 'koa-passport';
 import UserController from '../controllers/userController';
 import { User } from '../models/user';
 import { UserInput } from '../models/userInput';
-import { importChord } from '../chordImporter';
+import { importChord, importPartition } from '../chordImporter';
 
 
 export const authRouter = new Router();
@@ -38,6 +38,7 @@ authRouter.get('/auth/status', async (ctx) => {
 
 authRouter.post('/auth/login', async (ctx) => {
   // importChord();
+  importPartition();
   if (ctx.isAuthenticated()) {
     ctx.throw(403)
   } else {

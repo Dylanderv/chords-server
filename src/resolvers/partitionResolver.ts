@@ -1,9 +1,9 @@
-import { PartitionInput } from "models/partitionInput"
-import PartitionController from "controllers/partitionController"
-import { Visibility } from "models/Partition";
+import { PartitionInput } from "../models/partitionInput"
+import PartitionController from "../controllers/partitionController"
+import { Visibility } from "../models/Partition";
 import { ApolloError } from "apollo-server-koa";
 
-export const paritionQuery = {
+export const partitionQuery = {
   async partitions(_, args, ctx) {
     return await PartitionController.getPartitions();
   },
@@ -22,13 +22,13 @@ export const paritionQuery = {
   }
 }
 
-export const paritionMutation = {
+export const partitionMutation = {
   async createPartition(_, args: {partitionInput: PartitionInput}, ctx) {
     if (ctx.state.user && ctx.state.user.id && ctx.state.user.id === args.partitionInput.ownerId) {
       return await PartitionController.createPartition(args.partitionInput);
     }
   },
-  async modifyParition(_, args: {id: string, partitionInput: PartitionInput}, ctx) {
+  async modifyPartition(_, args: {id: string, partitionInput: PartitionInput}, ctx) {
     if (ctx.state.user && ctx.state.user.id && ctx.state.user.id === args.partitionInput.ownerId) {
       return await PartitionController.modifyParition(args.id, args.partitionInput);
     }
