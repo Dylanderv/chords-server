@@ -53,6 +53,7 @@ export const typeDefs = gql`
     name: String!
     chords: [String]!
     ownerId: String!
+    instrumentId: String
   }
 
   enum Visibility {

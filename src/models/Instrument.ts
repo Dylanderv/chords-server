@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Chord } from "./Chord";
+import { Partition } from "./Partition";
 
 @Entity('instrument')
 export class Instrument {
@@ -21,4 +22,6 @@ export class Instrument {
   @OneToMany(type => Chord, chord => chord.instrument)
   chords: Chord[];
 
+  @OneToMany(type => Partition, partition => partition.instrument)
+  partitions: Partition[];
 }

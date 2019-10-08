@@ -1,6 +1,7 @@
 import { PrimaryGeneratedColumn, OneToMany, ManyToMany, CreateDateColumn, UpdateDateColumn, Entity, JoinTable, Column, ManyToOne } from "typeorm"
 import { Chord } from "./Chord";
 import { User } from "./user";
+import { Instrument } from "./Instrument";
 
 export enum Visibility {
   'PUBLIC',
@@ -31,4 +32,8 @@ export class Partition {
 
   @Column({type: 'enum', enum: Visibility})
   visibility: Visibility;
+
+  @ManyToOne(type => Instrument, instrument => instrument.partitions)
+  instrument: Instrument;
+
 }

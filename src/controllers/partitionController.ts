@@ -4,7 +4,7 @@ import { ApolloError, UserInputError } from "apollo-server-koa";
 import { PartitionInput } from "models/partitionInput";
 import UserController from "./userController";
 import { Chord } from "models/Chord";
-import { ChordController } from "./instrumentChordController";
+import { ChordController, InstrumentController } from "./instrumentChordController";
 import { validate } from "class-validator";
 
 export default class PartitionController {
@@ -24,7 +24,7 @@ export default class PartitionController {
 
   public static async createPartition(partitionInput: PartitionInput) {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
-    const partition = await getPartitionFromPartitionInput(partitionInput);
+    const partition = await getPartitionFromPartitionInput(partitionInput, true);
     const error = await validate(partition);
     if (error.length > 0) {
       throw new UserInputError('Validation failed', error);
@@ -39,7 +39,7 @@ export default class PartitionController {
     let newPartition: Partition;
     try {
       partition = await PartitionController.getPartition(id);
-      newPartition = await getPartitionFromPartitionInput(partitionInput);
+      newPartition = await getPartitionFromPartitionInput(partitionInput, false);
     } catch (err) {
       throw err;
     }
@@ -55,7 +55,7 @@ export default class PartitionController {
   }
 }
 
-async function getPartitionFromPartitionInput(partitionInput: PartitionInput): Promise<Partition> {
+async function getPartitionFromPartitionInput(partitionInput: PartitionInput, isNew: boolean): Promise<Partition> {
   let partition = new Partition();
   let user = await UserController.getUser(partitionInput.ownerId);
   let listChord: Chord[] = [];
@@ -64,5 +64,8 @@ async function getPartitionFromPartitionInput(partitionInput: PartitionInput): P
   partition.owner = user;
   partition.name = partitionInput.name;
   partition.visibility = Visibility.PUBLIC;
+  if (isNew) {
+    partition.instrument = await InstrumentController.getInstrument(partitionInput.instrumentId);
+  }
   return partition;
 }
