@@ -58,7 +58,7 @@ async function bootstrap() {
   const server = new ApolloServer({ typeDefs, resolvers, context: ({ctx}) => ctx })
   server.applyMiddleware({ app })
 
-  app.listen({ port: 3333 }, () =>
+  app.listen({ port: 3334 }, () =>
     console.log(`🚀 Server ready at http://localhost:3333${server.graphqlPath}`),
   );
 }

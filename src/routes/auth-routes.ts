@@ -29,6 +29,7 @@ authRouter.post('/auth/register', async (ctx) => {
 });
 
 authRouter.get('/auth/status', async (ctx) => {
+  console.log(ctx.state)
   if (ctx.isAuthenticated()) {
     ctx.body = ctx.state.user
   } else {
@@ -38,7 +39,7 @@ authRouter.get('/auth/status', async (ctx) => {
 
 authRouter.post('/auth/login', async (ctx) => {
   // importChord();
-  importPartition();
+  // importPartition();
   if (ctx.isAuthenticated()) {
     ctx.throw(403)
   } else {

@@ -19,6 +19,10 @@ export const partitionQuery = {
     } else {
       return partition
     }
+  },
+
+  async partitionsFromUserForInstrument(_, args: {userId: string, instrumentId: string}, ctx) {
+    return PartitionController.getPartitionFromUserIdForInstrument(args.userId, args.instrumentId);
   }
 }
 
@@ -31,6 +35,8 @@ export const partitionMutation = {
   async modifyPartition(_, args: {id: string, partitionInput: PartitionInput}, ctx) {
     if (ctx.state.user && ctx.state.user.id && ctx.state.user.id === args.partitionInput.ownerId) {
       return await PartitionController.modifyParition(args.id, args.partitionInput);
+    } else {
+      throw new ApolloError('Unauthorized', "403");
     }
   }
 }

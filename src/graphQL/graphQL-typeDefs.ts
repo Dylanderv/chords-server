@@ -47,6 +47,7 @@ export const typeDefs = gql`
     owner: User!
     visibility: Visibility!
     chords: [Chord]!
+    instrument: Instrument
   }
 
   input PartitionInput {
@@ -74,6 +75,7 @@ export const typeDefs = gql`
     chordFromName(instrumentId: ID!, key: String!, suffix: String!): Chord
     partitions: [Partition]
     partition(id: ID!): Partition
+    partitionsFromUserForInstrument(userId: ID!, instrumentId: ID!): [Partition]
   }
 
   # Mutation

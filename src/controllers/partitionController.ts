@@ -10,15 +10,31 @@ import { validate } from "class-validator";
 export default class PartitionController {
   public static async getPartitions(): Promise<Partition[]> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
-    return await partitionRepository.find({ relations: ["owner", "chords", "chords.instrument", "chords.instrument.chords"] });
+    return await partitionRepository.find({ relations: ["owner", "chords", "instrument", "instrument.chords"] });
   }
 
   public static async getPartition(id: string): Promise<Partition> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
     try {
-      return await partitionRepository.findOneOrFail(id, { relations: ["owner", "chords", "chords.instrument", "chords.instrument.chords"] });
+      return await partitionRepository.findOneOrFail(id, { relations: ["owner", "chords", "instrument", "instrument.chords"] });
     } catch (err) {
       throw new ApolloError("Partition ID not found")
+    }
+  }
+
+  public static async getPartitionFromUserIdForInstrument(userId: string, instrumentId: string): Promise<Partition[]> {
+    const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
+    try {
+      return await partitionRepository
+        .createQueryBuilder('partition')
+        .where('partition.owner = :userId', {userId})
+        .andWhere('partition.instrument = :instrumentId', {instrumentId})
+        .leftJoinAndSelect('partition.owner', 'user')
+        .leftJoinAndSelect('partition.chords', 'chord')
+        .leftJoinAndSelect('partition.instrument', 'instrument')
+        .getMany();
+    } catch (err) {
+      throw new ApolloError("UserId not found")
     }
   }
 
@@ -43,9 +59,9 @@ export default class PartitionController {
     } catch (err) {
       throw err;
     }
-    partition.chords = partition.chords;
-    partition.name = partition.name;
-    partition.visibility = partition.visibility;
+    partition.chords = newPartition.chords;
+    partition.name = newPartition.name;
+    partition.visibility = newPartition.visibility;
     const error = await validate(partition);
     if (error.length > 0) {
       throw new UserInputError('Validation failed', error);

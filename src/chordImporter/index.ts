@@ -22,13 +22,15 @@ export async function importPartition() {
     password: 'test',
     username: 'test'
   });
-  let chords = await ChordController.getChordForInstrument(((await InstrumentController.getInstruments())[0] as Instrument).id);
+  let instrumentId = ((await InstrumentController.getInstruments())[0] as Instrument).id
+  let chords = await ChordController.getChordForInstrument(instrumentId);
   // console.log(chords);
   let chordsToSelect = [chords[0].id, chords[1].id];
   let res = await PartitionController.createPartition({
     chords: chordsToSelect,
     name: 'test Partition',
-    ownerId: user.id
+    ownerId: user.id,
+    instrumentId
   })
   console.log(res);
 }
