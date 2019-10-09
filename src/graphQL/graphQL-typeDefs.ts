@@ -48,6 +48,7 @@ export const typeDefs = gql`
     visibility: Visibility!
     chords: [Chord]!
     instrument: Instrument
+    content: String
   }
 
   input PartitionInput {
@@ -55,6 +56,7 @@ export const typeDefs = gql`
     chords: [String]!
     ownerId: String!
     instrumentId: String
+    content: String
   }
 
   enum Visibility {

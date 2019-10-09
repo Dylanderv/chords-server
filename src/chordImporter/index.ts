@@ -30,7 +30,8 @@ export async function importPartition() {
     chords: chordsToSelect,
     name: 'test Partition',
     ownerId: user.id,
-    instrumentId
+    instrumentId,
+    content: ''
   })
   console.log(res);
 }

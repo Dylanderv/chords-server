@@ -24,6 +24,9 @@ export class Partition {
   @JoinTable()
   chords: Chord[];
 
+  @Column({type: 'text'})
+  content: string;
+
   @Column({type: 'text', nullable: false })
   name: string;
 

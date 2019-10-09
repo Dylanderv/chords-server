@@ -5,4 +5,5 @@ export class PartitionInput {
   chords: string[]
   ownerId: string
   instrumentId: string
+  content: string
 }

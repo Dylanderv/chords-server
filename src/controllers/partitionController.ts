@@ -62,6 +62,7 @@ export default class PartitionController {
     partition.chords = newPartition.chords;
     partition.name = newPartition.name;
     partition.visibility = newPartition.visibility;
+    partition.content = newPartition.content;
     const error = await validate(partition);
     if (error.length > 0) {
       throw new UserInputError('Validation failed', error);
@@ -83,6 +84,7 @@ async function getPartitionFromPartitionInput(partitionInput: PartitionInput, is
   console.log(listChord)
   partition.owner = user;
   partition.name = partitionInput.name;
+  partition.content = partitionInput.content;
   partition.visibility = Visibility.PUBLIC;
   if (isNew) {
     partition.instrument = await InstrumentController.getInstrument(partitionInput.instrumentId);
