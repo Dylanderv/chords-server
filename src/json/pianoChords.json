@@ -26,7 +26,7 @@
     "major",
     "minor",
     "7",
-    "minor 7"
+    "minor7"
   ],
   "chords": {
     "C": [
@@ -80,7 +80,7 @@
       },
       {
         "key": "C",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "C"
@@ -148,7 +148,7 @@
       },
       {
         "key": "Csharp",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "Csharp"
@@ -215,7 +215,7 @@
         ]
       },
       {
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "name": "Db",
         "position": [
           {
@@ -284,7 +284,7 @@
       },
       {
         "key": "D",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "D"
@@ -351,7 +351,7 @@
         ]
       },
       {
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "key": "Dsharp",
         "position": [
           {
@@ -420,7 +420,7 @@
       },
       {
         "key": "Eb",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "Eb"
@@ -488,7 +488,7 @@
       },
       {
         "key": "E",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "E"
@@ -556,7 +556,7 @@
       },
       {
         "key": "F",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "F"
@@ -624,7 +624,7 @@
       },
       {
         "key": "Fsharp",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "Fsharp"
@@ -691,7 +691,7 @@
         ]
       },
       {
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "key": "Gb",
         "position": [
           {
@@ -760,7 +760,7 @@
       },
       {
         "key": "G",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "G"
@@ -827,7 +827,7 @@
         ]
       },
       {
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "key": "Gsharp",
         "position": [
           {
@@ -896,7 +896,7 @@
       },
       {
         "key": "Ab",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "Ab"
@@ -964,7 +964,7 @@
       },
       {
         "key": "A",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "A"
@@ -1031,7 +1031,7 @@
         ]
       },
       {
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "key": "Asharp",
         "position": [
           {
@@ -1100,7 +1100,7 @@
       },
       {
         "key": "B",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "B"
@@ -1168,7 +1168,7 @@
       },
       {
         "key": "Bb",
-        "suffix": "minor 7",
+        "suffix": "minor7",
         "position": [
           {
             "name": "Bb"
