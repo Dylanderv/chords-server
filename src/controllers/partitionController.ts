@@ -70,6 +70,16 @@ export default class PartitionController {
       return await partitionRepository.save(partition);  
     }
   }
+
+  public static async deletePartition(id: string) {
+    const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
+    try {
+      await partitionRepository.delete(id);
+    } catch (err) {
+      throw new ApolloError('Error when deleting');
+    }
+    return id;
+  }
 }
 
 async function getPartitionFromPartitionInput(partitionInput: PartitionInput, isNew: boolean): Promise<Partition> {

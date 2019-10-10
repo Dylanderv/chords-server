@@ -1,6 +1,6 @@
 import { PartitionInput } from "../models/partitionInput"
 import PartitionController from "../controllers/partitionController"
-import { Visibility } from "../models/Partition";
+import { Visibility, Partition } from "../models/Partition";
 import { ApolloError } from "apollo-server-koa";
 
 export const partitionQuery = {
@@ -33,10 +33,30 @@ export const partitionMutation = {
     }
   },
   async modifyPartition(_, args: {id: string, partitionInput: PartitionInput}, ctx) {
-    if (ctx.state.user && ctx.state.user.id && ctx.state.user.id === args.partitionInput.ownerId) {
+    let partition: Partition;
+    try {
+      partition = await PartitionController.getPartition(args.id);
+    } catch (err) {
+      throw new ApolloError('Not found', '404');
+    }
+    if (
+      ctx.state.user && ctx.state.user.id && ctx.state.user.id === partition.owner.id 
+      && ctx.state.user.id === args.partitionInput.ownerId
+    ) {
       return await PartitionController.modifyParition(args.id, args.partitionInput);
     } else {
       throw new ApolloError('Unauthorized', "403");
+    }
+  },
+  async deletePartition(_, args: {id: string}, ctx) {
+    let partition: Partition;
+    try {
+      partition = await PartitionController.getPartition(args.id);
+    } catch (err) {
+      throw new ApolloError('Not found', '404');
+    }
+    if (ctx.state.user && ctx.state.user.id && ctx.state.user.id === partition.owner.id) {
+      return await PartitionController.deletePartition(args.id);
     }
   }
 }

@@ -88,6 +88,7 @@ export const typeDefs = gql`
     createUser(userInput: UserInput): User
     createPartition(partitionInput: PartitionInput): Partition
     modifyPartition(id: ID!, partitionInput: PartitionInput): Partition
+    deletePartition(id: ID!): ID
   }
 
   
