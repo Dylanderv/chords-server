@@ -4,6 +4,7 @@ import { Chord } from "../models/Chord";
 import PartitionController from "../controllers/partitionController";
 import UserController from "../controllers/userController";
 import { ChordController, InstrumentController } from "../controllers/instrumentChordController";
+import { Visibility } from "../models/Partition";
 
 const PianoChord = require('../json/pianoChords.json');
 const GuitarChord = require('../json/guitarChords.json');
@@ -31,7 +32,8 @@ export async function importPartition() {
     name: 'test Partition',
     ownerId: user.id,
     instrumentId,
-    content: ''
+    content: '',
+    visibility: Visibility.PUBLIC
   })
   console.log(res);
 }

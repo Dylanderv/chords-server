@@ -1,5 +1,4 @@
-import * as Router from 'koa-router';
-import * as passport from 'koa-passport';
+import Router from 'koa-router';
 
 export const graphQlRouter = new Router();
 

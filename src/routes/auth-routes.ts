@@ -1,5 +1,5 @@
-import * as Router from 'koa-router';
-import * as passport from 'koa-passport';
+import Router from 'koa-router';
+import passport from 'koa-passport';
 import UserController from '../controllers/userController';
 import { User } from '../models/user';
 import { UserInput } from '../models/userInput';
