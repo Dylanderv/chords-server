@@ -6,26 +6,41 @@ import UserController from "./userController";
 import { Chord } from "../models/Chord";
 import { ChordController, InstrumentController } from "./instrumentChordController";
 import { validate } from "class-validator";
+import { User } from "models/user";
 
 export default class PartitionController {
-  public static async getPartitions(): Promise<Partition[]> {
+  public static async getPartitions(currentUserId: string|undefined): Promise<Partition[]> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
-    return await partitionRepository.find({ relations: ["owner", "chords", "instrument", "instrument.chords"] });
+    // let partitions = await partitionRepository.find({ relations: ["owner", "chords", "instrument", "instrument.chords"] });
+    return await partitionRepository
+      .createQueryBuilder('partition')
+      .where('partition.visibility = :publicVisibility', {publicVisibility: Visibility.PUBLIC})
+      .orWhere('partition.owner = :currentUserId', {currentUserId})
+      .leftJoinAndSelect('partition.owner', 'user')
+      .leftJoinAndSelect('partition.chords', 'chord')
+      .leftJoinAndSelect('partition.instrument', 'instrument')
+      .getMany();
   }
 
-  public static async getPartition(id: string): Promise<Partition> {
+  public static async getPartition(id: string, currentUserId: string|undefined): Promise<Partition> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
+    let partition: Partition;
     try {
-      return await partitionRepository.findOneOrFail(id, { relations: ["owner", "chords", "instrument", "instrument.chords"] });
+      partition = await partitionRepository.findOneOrFail(id, { relations: ["owner", "chords", "instrument", "instrument.chords"] });
+      if (partition.visibility === Visibility.PRIVATE && partition.owner.id !== currentUserId) {
+        throw new ApolloError("Unauthorized");
+      } else {
+        return partition;
+      }
     } catch (err) {
       throw new ApolloError("Partition ID not found")
     }
   }
 
-  public static async getPartitionFromUserIdForInstrument(userId: string, instrumentId: string): Promise<Partition[]> {
+  public static async getPartitionFromUserIdForInstrument(userId: string, instrumentId: string, currentUserId: string|undefined): Promise<Partition[]> {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
     try {
-      return await partitionRepository
+      let partitions = await partitionRepository
         .createQueryBuilder('partition')
         .where('partition.owner = :userId', {userId})
         .andWhere('partition.instrument = :instrumentId', {instrumentId})
@@ -33,6 +48,11 @@ export default class PartitionController {
         .leftJoinAndSelect('partition.chords', 'chord')
         .leftJoinAndSelect('partition.instrument', 'instrument')
         .getMany();
+      if (currentUserId !== undefined) {
+        return partitions.filter(partition => (partition.visibility === Visibility.PUBLIC) || (partition.owner.id === currentUserId))
+      } else {
+        return partitions.filter(partition => partition.visibility === Visibility.PUBLIC)
+      }
     } catch (err) {
       throw new ApolloError("UserId not found")
     }
@@ -49,12 +69,12 @@ export default class PartitionController {
     }
   }
 
-  public static async modifyParition(id: string, partitionInput: PartitionInput) {
+  public static async modifyParition(id: string, partitionInput: PartitionInput, currentUserId: string) {
     const partitionRepository: Repository<Partition> = getManager().getRepository(Partition);
     let partition: Partition;
     let newPartition: Partition;
     try {
-      partition = await PartitionController.getPartition(id);
+      partition = await PartitionController.getPartition(id, currentUserId);
       newPartition = await getPartitionFromPartitionInput(partitionInput, false);
     } catch (err) {
       throw err;
@@ -95,7 +115,7 @@ async function getPartitionFromPartitionInput(partitionInput: PartitionInput, is
   partition.owner = user;
   partition.name = partitionInput.name;
   partition.content = partitionInput.content;
-  partition.visibility = Visibility.PUBLIC;
+  partition.visibility = partitionInput.visibility;
   if (isNew) {
     partition.instrument = await InstrumentController.getInstrument(partitionInput.instrumentId);
   }

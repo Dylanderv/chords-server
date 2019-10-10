@@ -1,3 +1,4 @@
+import { Visibility } from "./Partition"
 
 
 export class PartitionInput {
@@ -6,4 +7,5 @@ export class PartitionInput {
   ownerId: string
   instrumentId: string
   content: string
+  visibility: Visibility
 }
