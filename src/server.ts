@@ -61,7 +61,7 @@ async function bootstrap() {
   server.applyMiddleware({ app })
 
   app.listen({ port: listenPort }, () =>
-    console.log(`🚀 Server ready at http://localhost:${listenPort}${server.graphqlPath}`),
+    console.log(`🚀 Server readyy at http://localhost:${listenPort}${server.graphqlPath}`),
   );
 }
 
