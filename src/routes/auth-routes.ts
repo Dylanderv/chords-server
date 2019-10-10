@@ -38,8 +38,8 @@ authRouter.get('/auth/status', async (ctx) => {
 });
 
 authRouter.post('/auth/login', async (ctx) => {
-  // importChord();
-  // importPartition();
+  importChord();
+  importPartition();
   if (ctx.isAuthenticated()) {
     ctx.throw(403)
   } else {
