@@ -5,6 +5,7 @@ export async function postgresDB() {
   return await createConnection({
     type: 'postgres',
     host: process.env.DATABASE_URL,
+    port: 5432,
     username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_DB,
