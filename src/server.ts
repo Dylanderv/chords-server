@@ -9,6 +9,8 @@ import * as session from 'koa-session'
 import { graphQlRouter } from './routes/graphql-routes';
 import * as cors from "@koa/cors";
 
+let listenPort = process.env.PORT || 3000;
+
 const app = require('./app');
 
 const SESSION_CONFIG = {
@@ -58,8 +60,8 @@ async function bootstrap() {
   const server = new ApolloServer({ typeDefs, resolvers, context: ({ctx}) => ctx })
   server.applyMiddleware({ app })
 
-  app.listen({ port: 3334 }, () =>
-    console.log(`🚀 Server ready at http://localhost:3333${server.graphqlPath}`),
+  app.listen({ port: listenPort }, () =>
+    console.log(`🚀 Server ready at http://localhost:${listenPort}${server.graphqlPath}`),
   );
 }
 
