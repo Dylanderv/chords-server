@@ -1,8 +1,8 @@
-import * as passport from 'koa-passport';
+import passport from 'koa-passport';
 import UserController from '../controllers/userController';
 import { Repository, getManager } from 'typeorm';
 import { User } from '../models/user';
-import * as bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 let LocalStrategy = require('passport-local')
 
