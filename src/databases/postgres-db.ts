@@ -4,7 +4,7 @@ import { postgresTables } from './postgres-tables';
 export async function postgresDB() {
   return await createConnection({
     type: 'postgres',
-    host: 'localhost',
+    host: 'DATABASE',
     port: 5432,
     username: 'user',
     password: 'password',
